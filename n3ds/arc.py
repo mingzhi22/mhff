@@ -341,7 +341,13 @@ def extract_arc(arc_file, output_path):
         if len(file_data) != size:
             raise ValueError('table of contents: wrong file size')
         file_name = os.path.join(output_path, file_name)
-        os.makedirs(os.path.dirname(file_name), exist_ok=True)
+        # os.makedirs(os.path.dirname(file_name), exist_ok=True)
+        dir_name = os.path.dirname(file_name)
+        try:
+            os.makedirs(dir_name)
+        except OSError:
+            if not os.path.isdir(dir_name):
+                raise
         open(file_name, 'wb').write(file_data)
     arc.close()
 
